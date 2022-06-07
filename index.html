@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="css/main.css" />
+
+    <script
+      defer
+      src="https://kit.fontawesome.com/0d3f998bf1.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+      crossorigin="anonymous"
+    ></script>
+
+    <script defer src="lib/jquery/jquery.js"></script>
+    <script defer src="js/services/util.service.js"></script>
+    <script defer src="js/services/storage.service.js"></script>
+    <script defer src="js/services/i18n.service.js"></script>
+    <script defer src="js/services/book.service.js"></script>
+    <script defer src="js/view.controller.js"></script>
+    <script defer src="js/book.controller.js"></script>
+    <title>Book Store</title>
+  </head>
+  <body>
+    <!-- Page -->
+    <div class="container mt-5">
+      <!-- Heading -->
+      <h1 data-trans="heading" class="display-4 text-center">
+        🐛 BookWorm backoffice
+      </h1>
+      <!-- Options -->
+      <div class="container options m-auto mt-5">
+        <!-- Filter -->
+        <section>
+          <h3 data-trans="filter-by">Filter By:</h3>
+          <!-- oninput="onSetFilterBy({txt: this.value})" -->
+
+          <div class="input-group">
+            <!-- Filter by price -->
+            <select class="form-select filter-by-price" id="inputGroupSelect01">
+              <option selected value="0" data-trans="max-price">
+                Max Price
+              </option>
+              <option value="5">5$</option>
+              <option value="10">10$</option>
+              <option value="15">15$</option>
+              <option value="20">20$</option>
+            </select>
+            <!-- Fiter by rate -->
+            <select class="form-select filter-by-rate" id="inputGroupSelect02">
+              <option selected value="0" data-trans="min-rate">Min Rate</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+            <!-- Filter by text -->
+            <input
+              type="text"
+              class="form-control filter-by-txt"
+              aria-label="Text input with 2 dropdown buttons"
+              data-trans="filter-txt"
+            />
+          </div>
+        </section>
+        <!-- Sorter -->
+
+        <section>
+          <!-- onchange="onSetSortBy()" -->
+          <h3 data-trans="sort-by">Sort By:</h3>
+          <div class="input-group mb-3">
+            <div class="input-group-text">
+              <!-- Acsending/Decsending -->
+              <input
+                class="form-check-input mt-0 sort-desc"
+                type="checkbox"
+                value=""
+                aria-label="Checkbox for following text input"
+              />
+            </div>
+            <!-- Sory By -->
+            <select class="form-select sort-by" id="inputGroupSelect03">
+              <option selected data-trans="select-sorting">
+                Select Sorting
+              </option>
+              <option value="title" data-trans="title">Title</option>
+              <option value="price" data-trans="price">Price</option>
+            </select>
+          </div>
+        </section>
+        <!-- Addlang -->
+        <section>
+          <select
+            class="form-select form-select-sm select-lang"
+            aria-label=".form-select-sm"
+          >
+            <option value="">Select Lang</option>
+            <option value="en">English</option>
+            <option value="es">Espanol</option>
+            <option value="he">עברית</option>
+          </select>
+        </section>
+        <!-- Add btn -->
+        <!-- <button
+          class="btn btn-secondary"
+          onclick="onToggleAddModal()"
+          
+        >
+          Add a book
+        </button> -->
+        <button
+          type="button"
+          class="btn btn-secondary btn-add-book"
+          data-bs-toggle="modal"
+          data-bs-target="#input-modal"
+          data-title="Add Book"
+          data-trans="add-book"
+        >
+          Add Book
+        </button>
+      </div>
+
+      <!-- Books container -->
+      <div class="container table-container m-auto mt-5">
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+            <!-- onclick="onSetSortByClick(this)" -->
+            <tr>
+              <th class="id">#</th>
+              <th class="th-sorter title" data-sort="title" data-trans="title">
+                Title <span></span>
+              </th>
+              <th class="th-sorter price" data-sort="price" data-trans="price">
+                Price <span></span>
+              </th>
+              <th data-trans="actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="books-list"></tbody>
+        </table>
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+          <ul class="pagination text-center">
+            <li class="page-item prev" data-page="-1">
+              <a class="page-link" aria-label="Previous">
+                <span aria-hidden="true"
+                  ><i class="fa-solid fa-circle-arrow-left"></i
+                ></span>
+              </a>
+            </li>
+            <span class="btns-pages pagination"></span>
+            <li class="page-item next" data-page="1">
+              <a class="page-link" aria-label="Next">
+                <span aria-hidden="true"
+                  ><i class="fa-solid fa-circle-arrow-right"></i
+                ></span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Modals -->
+
+    <div class="modal-read">
+          <h2>
+            #<span class="book-id">3242 </span>
+            <span class="book-title">Book Name</span>
+          </h2>
+
+        <h4><span class="book-price">55</span>$</h4>
+
+        <div class="desc">
+          <h3>Book Description</h3>
+          <p class="book-desc">
+            
+          </p>
+        </div>
+
+        <div>
+          <h4 data-trans="rating">Rating:</h4>
+          <div class="rate">
+            <button data-diff="-1" class="btn-rate">-</button>
+            <span class="book-rate">0</span>
+            <button data-diff="1" class="btn-rate">+</button>
+          </div>
+        </div>
+
+        <button class="btn-close"></button>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="input-modal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title input-modal-title" id="exampleModalLabel">
+              New message
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label"
+                  >Title:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="title"
+                  id="recipient-name"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="message-text" class="col-form-label">Price:</label>
+                <input class="form-control" id="message-text" name="price" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary input-modal-btn"
+              data-bs-dismiss="modal"
+            >
+              Send message
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
