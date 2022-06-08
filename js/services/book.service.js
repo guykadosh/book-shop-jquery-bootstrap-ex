@@ -121,8 +121,11 @@ function getPagesNum() {
 
 // Private functions
 function _booksFilter() {
-  let books = gBooks.filter(book => book.title.includes(gFilterBy.txt))
+  let books = gBooks
 
+  if (gFilterBy.txt) {
+    books = books.filter(book => book.title.includes(gFilterBy.txt))
+  }
   if (gFilterBy.price) {
     books = books.filter(book => book.price < gFilterBy.price)
   }

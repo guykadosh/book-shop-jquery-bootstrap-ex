@@ -1,6 +1,8 @@
 //TODO: SHOW SELECTED PAGE BTN
 //TODO: JQUERY EVENT LISTENER PAGINATION
 
+'use strict'
+
 // Render to user functions
 function renderBooks() {
   const books = getBooks()
