@@ -1,4 +1,6 @@
-//TODO: use jQUERY
+'use strict'
+
+const CURRENCY = 3.34 // US$ to NIS
 
 let gTrans = {
   heading: {
@@ -109,7 +111,6 @@ let gTrans = {
 }
 
 let gCurrLang = 'en'
-const gCurrency = 3.34
 
 function getTrans(transKey) {
   let keyTrans = gTrans[transKey]
@@ -134,11 +135,9 @@ function doTrans() {
   })
 
   if (gCurrLang === 'he') {
-    document
-      .querySelectorAll('.display-price')
-      .forEach(
-        el => (el.innerText = formatCurrency(+el.dataset.price * gCurrency))
-      )
+    $('.display-price').each(function () {
+      $(this).text(formatCurrency($(this).data('price') * CURRENCY))
+    })
   }
 }
 

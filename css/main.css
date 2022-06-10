@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
 @import 'read-modal.css';
+@import 'rtl.css';
 
 /* TODO: create RTL file and fix all the bugs */
 
@@ -19,6 +20,13 @@ body {
   min-height: 28em;
 }
 
-.rtl {
-  direction: rtl;
+.alert-place-holder {
+  position: fixed;
+  width: 400px;
+  top: 0;
+  left: 0;
+}
+
+.page-selected {
+  background-color: #bac8ff;
 }

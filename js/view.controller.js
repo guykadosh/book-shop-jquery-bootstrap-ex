@@ -1,6 +1,3 @@
-//TODO: SHOW SELECTED PAGE BTN
-//TODO: JQUERY EVENT LISTENER PAGINATION
-
 'use strict'
 
 // Render to user functions
@@ -42,12 +39,16 @@ function renderPagesBtns() {
 
   let strHTMLs = ''
   for (let i = 0; i <= pages; i++) {
-    strHTMLs += `<li class="page-item" onclick="onSetPage(${i})"><a class="page-link">${
+    strHTMLs += `<li class="page-item" onclick="onSetPage(${i})"><a class="page-link page-${i}">${
       i + 1
     }</a></li>`
   }
 
   $('.btns-pages').html(strHTMLs)
+
+  // render selected pgae
+  const pageIdx = getPageIdx()
+  $(`.page-${pageIdx}`).addClass('page-selected')
 }
 
 function renderByQueryStringParams() {
@@ -59,11 +60,6 @@ function renderByQueryStringParams() {
     rate: +queryStringParams.get('rate') || 0,
     txt: queryStringParams.get('txt'),
   }
-
-  // return if no filter needed
-  // if (!filterBy.price && !filterBy.rate && !filterBy.txt) {
-  //   return
-  // }
 
   setBookFilter(filterBy)
 

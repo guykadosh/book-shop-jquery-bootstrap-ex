@@ -1,8 +1,5 @@
 'use strict'
 
-// TODO: FIX RTL
-// TODO: FLASH ALERT
-
 let gDesc = -1
 
 $(init)
@@ -38,6 +35,9 @@ function onRemoveBook() {
 
   // DOM
   renderBooks()
+
+  alert(`#${bookId} Deleted`, 'danger')
+  closeAlertTimeout()
 }
 
 function onAddBook() {
@@ -48,15 +48,19 @@ function onAddBook() {
   if (!title) return
 
   // Model
-  addBook(title, price)
+  const book = addBook(title, price)
 
   // DOM
   renderBooks()
+
+  alert(`#${book.id} succsefully added`, 'success')
+  closeAlertTimeout()
 }
 
 function onAddBookModal() {
   $('[name="title"]').val('')
   $('[name="title"]').attr('readonly', false)
+  $('[name="price"]').val('')
 
   $('.input-modal-title').text('Add Book')
   $('.input-modal-btn').text('Add Book')
@@ -74,6 +78,9 @@ function onUpdateBook(bookId) {
 
   // DOM
   renderBooks()
+
+  alert(`#${book.id} succsefully updated`, 'success')
+  closeAlertTimeout()
 }
 
 function onUpdateBookModal() {
@@ -81,6 +88,8 @@ function onUpdateBookModal() {
   const book = getBookById(bookId)
 
   $('[name="title"]').val(book.title).attr('readonly', true)
+  $('[name="price"]').val(book.price)
+
   $('.input-modal-title').text('Update Book')
   $('.input-modal-btn').text('Update Book')
   $('.input-modal-btn').on('click', () => {
@@ -224,7 +233,6 @@ function onSetPage(page) {
 }
 
 function onSetLang() {
-  console.log('i got called')
   const lang = this.value
 
   if (!lang) return

@@ -1,5 +1,26 @@
 'use strict'
 
+// Create bootsrap alert
+const alert = (message, type) => {
+  const wrapper = document.createElement('div')
+  wrapper.innerHTML = [
+    `<div id="action-alert" class="alert alert-${type} alert-dismissible fade show" role="alert">`,
+    `   <div>${message}</div>`,
+    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+    '</div>',
+  ].join('')
+
+  document.querySelector('.alert-place-holder').append(wrapper)
+}
+
+function closeAlertTimeout() {
+  setTimeout(() => {
+    const currAlert = new bootstrap.Alert('#action-alert')
+    currAlert.close()
+    $('#action-alert').remove()
+  }, 1000)
+}
+
 function makeId(length = 6) {
   const letters = 'abcdefghijklmnopqrstuvwxyz'
   const digits = '0123456789'

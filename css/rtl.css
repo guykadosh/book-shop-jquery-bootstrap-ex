@@ -1,0 +1,12 @@
+.rtl {
+  direction: rtl;
+}
+
+body.rtl .prev,
+body.rtl .next {
+  transform: rotate(180deg);
+}
+
+body.rtl .input-group {
+  flex-direction: row-reverse;
+}

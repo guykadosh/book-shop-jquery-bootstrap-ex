@@ -46,6 +46,8 @@ function addBook(title, price) {
   gBooks.push(book)
 
   _saveBooksToStorage()
+
+  return book
 }
 
 function removeBook(bookId) {
